@@ -1,0 +1,15 @@
+# change 'application' to your
+# google appengine application name
+application: change-me
+version: 0-0-1
+runtime: jruby
+resource_files:
+  - exclude: 'README.markdown'
+handlers:
+  - url: /tasks/*
+    login: admin
+  - url: /cron/*
+    login: admin
+context_params:
+  rack.env: production
+

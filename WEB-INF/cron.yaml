@@ -1,0 +1,16 @@
+# Change 'schedule' below to vary the frequency of autosweeps
+# Default: every 24 hours
+# Examples:
+# every 5 minutes
+# every 12 hours
+# 2nd,third mon,wed,thu of march 17:00
+# every monday 09:00
+# 1st monday of sep,oct,nov 17:00
+# every day 00:00
+# see: http://code.google.com/appengine/docs/python/config/cron.html
+# for more info
+cron:
+- description: autosweep
+  url: /cron/autosweep
+  schedule: every 24 hours synchronized
+

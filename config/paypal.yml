@@ -1,0 +1,34 @@
+paypal:
+  # Configuration
+  #
+  # environment:
+  # Execute live transfers or fake transfers in the sandbox.
+  # Uncomment (delete the '#') the line below to execute fake transfers
+  # environment: "sandbox"
+  #
+  # email and password:
+  # For "live" mode this is your Paypal email and password as used when
+  # logging in at https://paypal.com
+  #
+  # For "sandbox" mode this is your Paypal sandbox user's email and password
+  # as used when logging in at https://sandbox.paypal.com
+  email: "paypal_email@example.com"
+  password: "paypal password"
+  #
+  # developer_email and developer_password (sandbox_only):
+  # This is your Paypal developer email and password as used when
+  # logging in at https://developer.paypal.com
+  # Uncomment (delete the '#') the following 2 lines to set a developer email and password
+  # developer_email: "paypal_developer_email@example.com"
+  # developer_password: "paypal developer password"
+  #
+  # minimum_balance:
+  # The minimum balance you want to leave in your Paypal account
+  # Uncomment (delete the '#') the line below to set a minimum balance
+  # minimum_balance: "0"
+  #
+  # minimum_transfer:
+  # The minimum amount to transfer
+  # Uncomment (delete the '#') the line below to set a minimum transfer
+  # minimum_transfer: "5"
+
