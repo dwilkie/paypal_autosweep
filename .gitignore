@@ -3,10 +3,10 @@ rerun.txt
 bin/**
 WEB-INF/**
 public/**
-config/**
 !public/stylesheets
 !public/javascripts
 !WEB-INF/cron.yaml
+!WEB-INF/app.yaml
 .gems
 .bundle
 vendor
