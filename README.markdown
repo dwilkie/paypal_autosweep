@@ -23,11 +23,17 @@ Windows users check the [Wiki](https://github.com/dwilkie/paypal_autosweep/wiki/
 
 By default your entire Paypal balance will be transferred to your linked bank account every 24 hours.
 
-### Advanced Configuration
+## Advanced Configuration
 
 `paypal_autosweep/config/paypal.yml` contains advanced configuration options such as developer and sandbox accounts as well as minimum balance and minimum transfer options.
 
 `paypal_autosweep/WEB-INF/cron.yaml` controls the scheduling of your autosweeps. Read the examples in this file to change the scheduling.
+
+## Problems?
+
+Check your logs and datastore by logging into your [Google App Engine Account](http://appengine.google.com). The datastore view contains details of successful and unsucessful Autosweep attempts along with any relevent error messages.
+
+If you still can't solve the problem submit a new issue.
 
 Copyright (c) 2010 David Wilkie, released under the MIT license
 
