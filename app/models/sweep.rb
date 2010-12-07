@@ -16,7 +16,6 @@ class Sweep
   property :created_at, DateTime
   property :failed_at, DateTime
   property :error, String
-  property :backtrace, Text
 
   attr_accessor :environment, :email, :password,
                 :api_username, :api_password, :api_signature,
@@ -32,13 +31,12 @@ class Sweep
         api_username &&
         api_password &&
         api_signature
-      end
-      amount_to_transfer = transfer_amount
-      raise ArgumentError, "transfer amount: #{amount_to_transfer} is less than minimum: #{minimum_transfer.to_f.to_s}"
-        unless should_transfer?(amount_to_transfer)
+      balance = get_balance
+      amount_to_transfer = transfer_amount(balance)
+      raise ArgumentError, "Current Balance: #{balance}, Transfer amount: #{amount_to_transfer}, Minimum Transfer: #{minimum_transfer.to_f.to_s}, Minimum Balance: #{minimum_balance.to_f.to_s}" unless
+        should_transfer?(amount_to_transfer)
       if sandbox?
-        raise ArgumentError, "don't know your Paypal developer user details"
-        unless
+        raise ArgumentError, "don't know your Paypal developer user details" unless
           developer_email && developer_password
         agent.get(PAYPAL_DEVELOPER_URL)
         form = agent.page.forms.last
@@ -47,17 +45,13 @@ class Sweep
         form.checkboxes.last.check
         form.submit
         agent.get(PAYPAL_SANDBOX_URL)
-        login_email = sandbox_email
-        login_password = sandbox_password
       else
         agent.get(PAYPAL_LIVE_URL)
-        login_email = email
-        login_password = password
       end
       agent.page.link_with(:text => LOG_IN_LINK_TEXT).click
       form = agent.page.forms.last
-      form.login_email = login_email
-      form.login_password = login_password
+      form.login_email = email
+      form.login_password = password
       form.submit
       agent.page.link_with(:text => TRANSFER_LINK_TEXT).click
       form = agent.page.forms.last
@@ -68,7 +62,6 @@ class Sweep
       agent.page.link_with(:text => LOG_OUT_LINK_TEXT).click
     rescue Exception => e
       self.error = e.message
-      self.backtrace = e.backtrace
       self.failed_at = Time.now
     end
     self.save
@@ -91,20 +84,23 @@ class Sweep
       :method => 'POST',
       :follow_redirects => false,
       :headers => {"Content-Type" => "application/x-www-form-urlencoded"}
-    )
+    ).body
     parsed_response = Rack::Utils.parse_nested_query(response)
     parsed_response["L_AMT0"]
   end
 
-  def transfer_amount
-    balance = get_balance.to_f
+  def transfer_amount(balance)
+    balance = balance.to_f
     transfer = minimum_balance ? balance - minimum_balance.to_f : balance
-    transfer = transfer >= minimum_transfer ? transfer : 0 if minimum_transfer
     transfer.to_s
   end
 
   def should_transfer?(transfer_amount)
-    transfer_amount.to_f > 0.00
+    amount_to_transfer = transfer_amount.to_f
+    min_transfer = minimum_transfer.to_f
+    amount_to_transfer > 0.00 ?
+      amount_to_transfer >= min_transfer :
+      false
   end
 
   def sandbox?
