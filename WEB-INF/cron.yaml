@@ -12,5 +12,5 @@
 cron:
 - description: autosweep
   url: /cron/autosweep
-  schedule: every 24 hours synchronized
+  schedule: every 1 minutes synchronized
 
