@@ -15,6 +15,15 @@ paypal:
   email: "paypal_email@example.com"
   password: "paypal password"
   #
+  # api user details:
+  # To get these details log into your Paypal account and
+  # navigate to "Profile" -> "More Options". Under "Account Information"
+  # select "API Access". Then select "View API Signature" and fill
+  # in the details below:
+  api_username: "paypal_api_username.example.com"
+  api_password: "paypal api password"
+  api_signature: "paypal_api_signature"
+  #
   # developer_email and developer_password (sandbox_only):
   # This is your Paypal developer email and password as used when
   # logging in at https://developer.paypal.com
