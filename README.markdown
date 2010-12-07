@@ -8,8 +8,9 @@ Since the Paypal doesn't allow you to transfer money to your bank account via th
 
 ## Installation Instructions
 
-If you haven't already done so, install ruby, rubygems and git.
-Windows users see the [Wiki](https://github.com/dwilkie/paypal_autosweep/wiki/Windows)
+If you haven't already done so, install ruby 1.8.7, rubygems and git. Ruby 1.8.7 is required because App Engine requires JRuby.
+
+Windows users check the [Wiki](https://github.com/dwilkie/paypal_autosweep/wiki/Windows)
 
 ### Quick Setup
 
