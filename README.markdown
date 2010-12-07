@@ -9,11 +9,11 @@ Since the Paypal doesn't allow you to transfer money to your bank account via th
 ## Installation Instructions
 
 If you haven't already done so, install ruby, rubygems and git.
-Windows users see: [https://github.com/dwilkie/paypal_autosweep/wiki/Windows]
+Windows users see: (https://github.com/dwilkie/paypal_autosweep/wiki/Windows)
 
 ### Quick Setup
 
-1. Create a new free app at: [http://appengine.google.com]
+1. Create a new free app at: (http://appengine.google.com)
 2. Install google-appengine: `gem install google-appengine`
 3. Clone this repos: `git clone git://github.com/dwilkie/paypal_autosweep.git`
 4. Open up: `paypal_autosweep/WEB-INF/app.yaml` and change `application` to the name of your application from step #1
