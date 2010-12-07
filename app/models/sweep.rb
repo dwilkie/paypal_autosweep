@@ -4,6 +4,10 @@ class Sweep
   PAYPAL_SANDBOX_URL = "https://sandbox.paypal.com"
   PAYPAL_DEVELOPER_URL = "https://developer.paypal.com"
 
+  LOG_IN_LINK_TEXT = "Log In"
+  LOG_OUT_LINK_TEXT = "Log Out"
+  TRANSFER_LINK_TEXT = "Transfer to Bank Account"
+
   include DataMapper::Resource
   property :id, Serial
   property :created_at, DateTime
@@ -18,15 +22,13 @@ class Sweep
   def perform
     agent = Mechanize.new
     begin
-      unless email && password
-        try_again = false
-        raise AgumentError, "don't know your Paypal user details"
+      raise AgumentError, "don't know your Paypal user details" unless
+        email && password
       end
       if environment == "sandbox"
-        unless developer_email && developer_password
-          try_again = false
-          raise ArgumentError, "don't know your Paypal developer user details"
-        end
+        raise ArgumentError, "don't know your Paypal developer user details"
+        unless
+          developer_email && developer_password
         agent.get(PAYPAL_DEVELOPER_URL)
         form = agent.page.forms.last
         form.login_email = developer_email
@@ -41,39 +43,25 @@ class Sweep
         login_email = email
         login_password = password
       end
-      agent.page.link_with(:text => "Log In").click
+      agent.page.link_with(:text => LOG_IN_LINK_TEXT).click
       form = agent.page.forms.last
       form.login_email = login_email
       form.login_password = login_password
       form.submit
-      agent.page.link_with(:text => "Transfer to Bank Account").click
+      agent.page.link_with(:text => TRANSFER_LINK_TEXT).click
       form = agent.page.forms.last
       form.amount = "400"
       form.submit
       form = agent.page.forms.last
       form.submit
       agent.page
-      agent.page.link_with(:text => "Log Out").click
+      agent.page.link_with(:text => LOG_OUT_LINK_TEXT).click
     rescue Exception => e
-      if try_again.nil? || try_again
-        raise e
-      else
-        self.error = e.message
-        self.backtrace = e.backtrace
-        self.failed_at = Time.now
-      end
+      self.error = e.message
+      self.backtrace = e.backtrace
+      self.failed_at = Time.now
     end
     self.save
-  end
-
-  private
-
-  def try_again=(value)
-    @try_again = value
-  end
-
-  def try_again
-    @try_again
   end
 end
 
